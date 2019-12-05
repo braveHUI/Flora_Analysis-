@@ -1,14 +1,14 @@
->Step 1, download stable version from [PYSample](http://gitlab.microbiota.git/libranjie/PYSample/tags), untar package
+>Step 1, download stable version from [Flora_Analysis](https://github.com/braveHUI/Flora_Analysis-.git), untar package
 
 ```Bash
-tar -zxcf PYSample-2018.Jun5-13.37.tar.gz
+tar -zxcf Flora_Analysis-2018.Jun5-13.37.tar.gz
 ```
 
->Step 2, conda create PYSample
+>Step 2, conda create Flora_Analysis
 
 ```Bash
-conda create -n PYSample python=3
-source activate PYSample
+conda create -n Flora_Analysis python=3
+source activate Flora_Analysis
 pip install -r requirement.txt
 ```
 
@@ -42,10 +42,10 @@ python manager.py insert_role
 python manager.py adduser -r Administrator -n `Administrator` -p `password` -u `admin`
 ```
 
->Step 5, Open Firewall for PYSample
+>Step 5, Open Firewall for Flora_Analysis
 
 ```Bash
-firewall-cmd --permanent --new-service=`PYSample` --add-port=`8080/tcp`
+firewall-cmd --permanent --new-service=`Flora_Analysis` --add-port=`8080/tcp`
 firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.1.1/24" service name="`PYSample`" accept"
 firewall-cmd --reload
 firewall-cmd --zone=public --list-all
