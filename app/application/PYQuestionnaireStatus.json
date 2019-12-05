@@ -1,0 +1,342 @@
+{
+  "translate4web": {
+    "Tube_ID": {
+      "Translate": "采样管编号"
+    },
+    "Sampling_date": {
+      "Translate": "采样日期"
+    },
+    "Questionnaire_date": {
+      "Translate": "问卷录入时间"
+    },
+    "Questionnaire_status": {
+      "Translate": "问卷状态",
+      "Value": {
+        "0": "否",
+        "1": "完成",
+        "2": "已抓取"
+      }
+    },
+    "Gender": {
+      "Translate": "性别",
+      "Value": {
+        "1": "男",
+        "0": "女"
+      }
+    },
+    "Age": {
+      "Translate": "年龄"
+    },
+    "BMI": {
+      "Translate": "BMI (17.4-24.8)"
+    },
+    "Smoking": {
+      "Translate": "吸烟",
+      "Value": {
+        "1": "是",
+        "0": "否"
+      }
+    },
+    "Triglyceride": {
+      "Translate": "甘油三酯"
+    },
+    "Total_cholesterol": {
+      "Translate": "总胆固醇"
+    },
+    "High_density_lipoprotein": {
+      "Translate": "高密脂蛋白"
+    },
+    "Low_density_lipoprotein": {
+      "Translate": "低密脂蛋白"
+    },
+    "Fasting_blood_glucose": {
+      "Translate": "空腹血糖"
+    },
+    "Diet": {
+      "Translate": "饮食",
+      "Value": {
+        "0": "素食",
+        "1": "偏素食",
+        "2": "均匀",
+        "3": "偏肉食",
+        "4": "肉食"
+      }
+    },
+    "Defecation": {
+      "Translate": "排便",
+      "Value": {
+        "0": "数天一次",
+        "1": "一天一次",
+        "2": "一天数次"
+      }
+    },
+    "Past_medical_history": {
+      "Translate": "既往病史",
+      "Value": {
+        "malnutrition": "营养不良",
+        "pneumonia": "肺炎",
+        "hyperlipemia": "高脂血症",
+        "hypolipidemia": "低脂血症",
+        "hyperglycemia": "高血糖",
+        "hypoglycemia": "低血糖",
+        "hypeluricemia": "高尿酸",
+        "hypertension": "高血压",
+        "abnormal_liver_function": "肝功能异常",
+        "fatty_liver": "脂肪肝",
+        "cholecystitis": "胆囊炎",
+        "gallstone": "胆囊结石",
+        "others": "其他"
+      }
+    },
+    "Family_history": {
+      "Translate": "家族病史",
+      "Value": {
+        "colon _cancer": "结肠癌",
+        "diabetes": "糖尿病",
+        "obesity": "肥胖",
+        "others": "其他"
+      }
+    },
+    "Medicine_or_health_product": {
+      "Translate": "正服用药物或保健品",
+      "Value": {
+        "probiotics": "益生菌",
+        "prebiotics": "益生元",
+        "fish_oil": "鱼油",
+        "others": "其他"
+      }
+    },
+    "Remarks": {
+      "Translate": "备注"
+    },
+    "Sample_ID": {
+      "Translate": "样品编号"
+    },
+    "Dietary_preference_text": {
+      "Translate": "对烹饪方式的嗜好"
+    },
+    "Breastfeeding": {
+      "Translate": "母乳喂养",
+      "Value": {
+        "0": "母乳",
+        "1": "综合",
+        "2": "奶粉"
+      }
+    },
+    "Water_daily": {
+      "Translate": "平均每天饮水（一杯250ml）",
+      "Value": {
+        "1": "≥10杯",
+        "3": "2-5杯",
+        "4": "≤1杯",
+        "2": "6-9杯"
+      }
+    },
+    "Subhealth_state_text": {
+      "Translate": "亚健康状态"
+    },
+    "Defecation_regular": {
+      "Translate": "排便时间是否规律",
+      "Value": {
+        "1": "很规律",
+        "3": "经常不规律",
+        "4": "从没规律过",
+        "2": "有时规律"
+      }
+    },
+    "Fresh_vegetables": {
+      "Translate": "新鲜蔬菜",
+      "Value": {
+        "0": "不吃",
+        "1": "较少",
+        "3": "较多",
+        "4": "很多",
+        "2": "一般"
+      }
+    },
+    "Weight": {
+      "Translate": "体重（公斤）"
+    },
+    "Triglyceride": {
+      "Translate": "甘油三酯"
+    },
+    "Spend_on_MH": {
+      "Translate": "每年在药品和保健品上花费",
+      "Value": {
+        "1": "500-2000元",
+        "0": "＜500元",
+        "3": "4000-6000元",
+        "4": "＞6000元",
+        "2": "2000-4000元"
+      }
+    },
+    "Tube_ID": {
+      "Translate": "采样管编号"
+    },
+    "Remarks": {
+      "Translate": "备注"
+    },
+    "Fasting_blood_glucose": {
+      "Translate": "空腹血糖"
+    },
+    "Medicine": {
+      "Translate": "药物服用史"
+    },
+    "Drinks_preference": {
+      "Translate": "平时常喝饮品（如茶，可乐，功能型饮料等）"
+    },
+    "Smoking": {
+      "Translate": "吸烟史",
+      "Value": {
+        "0": "无吸烟史",
+        "1": "曾经吸烟但已戒断",
+        "2": "目前依然吸烟"
+      }
+    },
+    "Medical_examination": {
+      "Translate": "体检频率",
+      "Value": {
+        "1": "3年以上一次",
+        "3": "每年多于一次",
+        "4": "每年一次",
+        "2": "2-3年一次"
+      }
+    },
+    "Total_cholesterol": {
+      "Translate": "总胆固醇"
+    },
+    "Stool_shape": {
+      "Translate": "粪便形态",
+      "Value": {
+        "5": "粗边蓬松块，糊状",
+        "3": "香肠或蛇一样，且表面光滑",
+        "4": "断边光滑的柔软块状（易排出）",
+        "0": "一颗颗硬球（难以排出）",
+        "1": "香肠状，但表面凹凸",
+        "6": "水状，无固体块",
+        "2": "香肠状，但表面有裂痕"
+      }
+    },
+    "Defecation_period": {
+      "Translate": "规律排便时间段",
+      "Value": {
+        "1": "早上起床",
+        "3": "中饭后-晚饭前",
+        "5": "睡前",
+        "4": "晚饭后",
+        "2": "早饭后-中饭前"
+      }
+    },
+    "Nap_pattern": {
+      "Translate": "是否午睡",
+      "Value": {
+        "0": "从不",
+        "1": "偶尔",
+        "2": "经常"
+      }
+    },
+    "Insomnia_pattern": {
+      "Translate": "是否失眠",
+      "Value": {
+        "0": "从不",
+        "1": "偶尔",
+        "2": "经常"
+      }
+    },
+    "Height": {
+      "Translate": "身高（厘米）"
+    },
+    "Meat_product": {
+      "Translate": "肉类及肉制品",
+      "Value": {
+        "0": "不吃",
+        "1": "较少",
+        "3": "较多",
+        "4": "很多",
+        "2": "一般"
+      }
+    },
+    "Living_city": {
+      "Translate": "您所在的城市是"
+    },
+    "Supper_weekly": {
+      "Translate": "平均每周夜宵次数",
+      "Value": {
+        "1": "5-7次",
+        "3": "1-2次",
+        "4": "0次",
+        "2": "3-4次"
+      }
+    },
+    "Status": {
+      "Translate": "样品状态",
+      "Value": {
+        "5": "出JSON",
+        "3": "收样",
+        "4": "待检",
+        "8": "作废",
+        "1": "待出库",
+        "6": "出报告",
+        "7": "已配送",
+        "2": "出库"
+      }
+    },
+    "Sleeping_time": {
+      "Translate": "睡眠时间",
+      "Value": {
+        "1": "8小时以上",
+        "3": "4-6小时",
+        "4": "少于4小时",
+        "2": "6-8小时"
+      }
+    },
+    "Defecation_pattern": {
+      "Translate": "排便次数",
+      "Value": {
+        "1": "一天大于3次",
+        "3": "两天1次",
+        "4": "大于三天1次",
+        "5": "一天2-3次",
+        "2": "一天1-2次"
+      }
+    },
+    "Health_product": {
+      "Translate": "正服用的保健品",
+      "Value": {
+        "others": "其他",
+        "fish_oil": "鱼油",
+        "probiotics": "益生菌",
+        "prebiotics": "益生元"
+      }
+    },
+    "Breakfasts_weekly": {
+      "Translate": "平均每周早餐次数",
+      "Value": {
+        "1": "7次",
+        "3": "2-4次",
+        "4": "0-1次",
+        "2": "5-6次"
+      }
+    },
+    "Alcohol": {
+      "Translate": "饮酒史",
+      "Value": {
+        "0": "不饮酒",
+        "1": "少量饮酒",
+        "2": "经常饮酒",
+        "3": "过量饮酒",
+        "4": "长期醉酒",
+        "5": "有，且采样前一周内饮过酒",
+        "6": "有，但采样前一周无饮酒",
+        "7": "无，但采样前一周有饮酒"
+      }
+    },
+    "Way_of_birth": {
+      "Translate": "出生方式",
+      "Value": {
+        "1": "顺产",
+        "2": "剖腹产"
+      }
+    }
+  }
+}

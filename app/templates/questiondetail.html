@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>sampleList</title>
+    <script src="/static/js/order.js"></script>
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/local.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      window.onload = function () {
+        $.getJSON("/questByPriSID", {
+          "key": sessionStorage.getItem("PriSID")
+        }, loadSampleList);
+
+      };
+
+      function loadSampleList(data) {
+        $('#sampleList').empty();
+        var html = "问卷详情<br>";
+        html += "采样管编号: " + data["Tube_ID"] + "<br>";
+        html += "样品状态: " + data["Status"] + "<br>";
+        html += "您所在的城市是: " + data["Living_city"] + "<br>";
+        html += "性别: " + data["Gender"] + "<br>";
+        html += "年龄: " + data["Age"] + "<br>";
+        html += "身高（厘米）: " + data["Height"] + "<br>";
+        html += "体重（公斤）: " + data["Weight"] + "<br>";
+        html += "采样日期: " + data["Sampling_date"] + "<br>";
+        html += "问卷录入时间: " + data["Questionnaire_date"] + "<br>";
+        html += "粪便形态: " + data["Stool_shape"] + "<br>";
+        html += "排便次数: " + data["Defecation_pattern"] + "<br>";
+        html += "排便时间是否规律: " + data["Defecation_regular"] + "<br>";
+        html += "规律排便时间段: " + data["Defecation_period"] + "<br>";
+        html += "饮酒史: " + data["Alcohol"] + "<br>";
+        html += "吸烟史: " + data["Smoking"] + "<br>";
+        html += "肉类及肉制品: " + data["Meat_product"] + "<br>";
+        html += "新鲜蔬菜: " + data["Fresh_vegetables"] + "<br>";
+        html += "对烹饪方式的嗜好: " + data["Dietary_preference"] + "<br>";
+        html += "既往病史: " + data["Past_medical_history"] + "<br>";
+        html += "家族病史: " + data["Family_history"] + "<br>";
+        html += "亚健康状态: " + data["Subhealth_state"] + "<br>";
+        html += "平均每周早餐次数: " + data["Breakfasts_weekly"] + "<br>";
+        html += "平均每周夜宵次数: " + data["Supper_weekly"] + "<br>";
+        html += "平均每天饮水（一杯250ml）: " + data["Water_daily"] + "<br>";
+        html += "平时常喝饮品（如茶，可乐，功能型饮料等）: " + data["Drinks_preference"] + "<br>";
+        html += "睡眠时间: " + data["Sleeping_time"] + "<br>";
+        html += "是否失眠: " + data["Insomnia_pattern"] + "<br>";
+        html += "是否午睡: " + data["Nap_pattern"] + "<br>";
+        html += "空腹血糖: " + data["Fasting_blood_glucose"] + "<br>";
+        html += "药物服用史: " + data["Medicine"] + "<br>";
+        html += "正服用的保健品: " + data["Health_product"] + "<br>";
+        html += "甘油三酯: " + data["Triglyceride"] + "<br>";
+        html += "总胆固醇: " + data["Total_cholesterol"] + "<br>";
+        html += "高密脂蛋白: " + data["High_density_lipoprotein"] + "<br>";
+        html += "低密脂蛋白: " + data["Low_density_lipoprotein"] + "<br>";
+        html += "出生方式: " + data["Way_of_birth"] + "<br>";
+        html += "母乳喂养: " + data["Breastfeeding"] + "<br>";
+        html += "体检频率: " + data["Medical_examination"] + "<br>";
+        html += "每年在药品和保健品上花费: " + data["Spend_on_MH"] + "<br>";
+        html += "问卷状态: " + data["Questionnaire_status"] + "<br>";
+        html += "备注: " + data["Remarks"] + "<br>";
+        $('#sampleList').append(html);
+
+        order()
+      }
+
+      var isDown = false;
+
+      function up(check) {
+        isDown = false;
+      }
+
+      function down(check) {
+        isDown = true;
+      }
+
+      function move(check) {
+        if (isDown) {
+          check.checked = true;
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+          <a class="navbar-brand" href=#>sampleList</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        {% include "sider.html" %}
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+              <a href="/logout" class="dropdown-toggle"><i class="fa fa-power-off"></i> Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="sampleList" onmousedown="down(this)" onmouseup="up(this)"></div><br>
+      <input type="button" name="Submit" onclick="javascript:history.back(-1);" value="返回" />
+      <br><br> {% extends "footer.html" %}
+
+    </div>
+  </body>
+
+</html>

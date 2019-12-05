@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Tube Sample information look</title>
+    <script src="/static/js/order.js"></script>
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/local.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      window.onload = function () {
+        $.getJSON("/UserInforPick", loadSampleList);
+
+        $("#authority_confirmation").click(function () {
+
+          console.log("a");
+          avar = document.getElementsByName("aw");
+          console.log(avar);
+          var aval = '';
+          var avalname = '';
+          var names = '';
+          for (var i = 0; i < avar.length; i++) {
+            for (var j = 0; j < avar[i].length; j++) {
+              if (avar[i].options[j].selected) {
+                aval += ',' + avar[i].options[j].value;
+                avalname += ',' + avar[i].options[j].text;
+
+              }
+              names += ',' + avar[i].text;
+            }
+          }
+          var data = {
+            "Status": aval,
+          };
+          $.ajax({
+            type: 'post',
+            url: '/UserInforUpload',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            statusCode: {
+              404: function () {
+                alert("网络错误")
+              },
+              200: function () {
+                location.reload();
+              },
+              500: function () {
+                alert("系统错误")
+              }
+            }
+          })
+        });
+
+        //输出选中的值
+        $("#add").click(function () {
+          var array = new Array();
+          $("[name= items]:checkbox:checked").each(function () {
+            array.push($(this).val());
+          });
+          $.ajax({
+            type: 'post',
+            url: "/add_shopping",
+            contentType: 'application/json',
+            data: JSON.stringify(array),
+            statusCode: {
+              404: function () {
+                alert("网络错误！");
+              },
+              200: function () {
+                alert("添加成功！")
+              },
+              500: function () {
+                alert("系统错误！")
+              }
+            }
+          });
+        });
+        $("#empty").click(function () {
+          $.ajax({
+            type: 'post',
+            url: "/clear_shopping",
+            contentType: 'application/json',
+            statusCode: {
+              404: function () {
+                alert("网络错误！");
+              },
+              200: function () {
+                alert("购物车已清空！")
+              },
+              500: function () {
+                alert("系统错误！")
+              }
+            }
+          });
+        });
+
+        $("#sampleselect_btn").click(function () {
+          var tube_id = $("#tube_id").val();
+          var sample_id = $("#sample_id").val();
+          var status = $("#status").val();
+          var time_end = $("#time_end").val();
+          var colname = $("#colname").val();
+          var rule = $("#rule").val();
+          var key = $("#key").val();
+          var data = {
+            "Status": status,
+            "Tube_ID": tube_id,
+            "Sample_id": sample_id,
+            "colname": colname,
+            "condition": rule,
+            "value": key
+          }
+
+          $('#sampleList').empty();
+
+          $.ajax({
+            type: 'post',
+            url: '/sampleInforByDetail',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            statusCode: {
+              404: function () {
+                alert("网络错误")
+              },
+              200: loadSampleList,
+              500: function () {
+                alert("系统错误")
+              }
+            }
+          })
+        });
+
+        $("#renew").click(function () {
+          location.reload();
+        });
+
+        $("#downloaad").click(function () {
+          var tabledata = document.getElementById("sampleList");
+          var msg = $("#sampleList").serialize();
+          console.log(tabledata);
+          var data = {
+            "one": tabledata.innerText
+          };
+          $.ajax({
+            type: 'post',
+            url: '/GenerateExcel',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            statusCode: {
+              404: function () {
+                alert("网络错误")
+              },
+              200: function (data) {
+                alert("生成成功！");
+                <!--window.open('/' + data['name'] +'/download/rexcel');-->
+                location.href = '/file-downloads/'
+              },
+              500: function () {
+                alert("系统错误")
+              }
+            }
+          })
+        });
+
+      }
+
+      function loadSampleList(data) {
+        $('#sampleList').empty();
+        var html = "<table id='tableSort'>";
+        html += "<thead><tr>" +
+          "<th type='string' class='text-center'>编号</th>" +
+          "<th type='string' class='text-center'>用户名</th>" +
+          "<th type='string' class='text-center'>真实姓名</th>" +
+          "<th type='number' class='text-center'>权限</th>" +
+          "<th type='string' class='text-center'>创建时间</th>" +
+          "<th type='string' class='text-center'>权限操作</th>" +
+          "<th type='string' class='text-center'>邮箱</th>" +
+          "</tr></thead><tbody>";
+        for (var i in data) {
+          aaa = "<tr>" +
+            "<td>" + i + "</td>" +
+            "<td>" + data[i]["username"] + "</td>" +
+            "<td>" + data[i]["realname"] + "</td>" +
+            "<td>" + data[i]["roleid"] + "</td>" +
+            "<td>" + data[i]["datetime"] + "</td>" +
+            "<td >" + "<select id='aw' name='aw'><option value='1'>Guest</option><option value='2'>Manager</option><option value='3'>Warehouse</option><option value='4'>Samplecenter</option><option value='5'>Production</option><option value='6'>Consultant</option><option value='7'>Administrator</option><option value='None'>未确定</option></select>" + "</td>" +
+            "<td>" + data[i]["email"] + "</td>";
+          bbb = aaa.replace(new RegExp(">" + data[i]["roleid"] + "</option>", 'g'), " selected = 'selected' >" + data[i]["roleid"] + "</option>");
+          html += bbb;
+
+        }
+        html += "</tr></tbody></table>";
+
+        $('#sampleList').append(html);
+
+        order()
+      }
+
+      function delieverPriSID(prisid) {
+        sessionStorage.setItem("采样管编号", prisid);
+        // localStorage.setItem("采样管编号", prisid);
+      }
+
+      function query() {
+        $('#samplelist').empty();
+        $.getJSON("/UserInforPick", loadSampleList);
+      }
+
+      function getValue(a) {
+        var a = this.a || document.getElementById("tableSort");
+        console.log(a)
+        var val = '';
+        var valname = '';
+        for (var i = 0; i < a.length; i++) {
+          if (a.options[i].selected) {
+            val += ',' + a.options[i].value;
+            valname += ',' + a.options[i].text
+          }
+        }
+        return val;
+      }
+
+      function doUpload() {
+        var formData = new FormData($("#uploadForm")[0]);
+        $.ajax({
+          type: 'post',
+          url: "/uploadSampleInforBack",
+          data: formData,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false,
+          statusCode: {
+            404: function () {
+              alert("网络错误！")
+            },
+            200: function () {
+              alert("上传成功！");
+              location.reload();
+            },
+            500: function () {
+              alert("系统错误，请联系系统管理员！")
+            },
+            0: function () {
+              alert("上传失败！请检测申请表")
+            }
+          }
+
+        });
+      }
+
+      var isDown = false;
+
+      function up(check) {
+        isDown = false;
+      }
+
+      function down(check) {
+        isDown = true;
+      }
+
+      function move(check) {
+        if (isDown) {
+          check.checked = true;
+        }
+      }
+    </script>
+  </head>
+
+  {% block page_content %}
+
+  <div id="wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+        <a class="navbar-brand" href=#>sampleList</a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        {% include "sider.html" %}
+        <ul class="nav navbar-nav navbar-right navbar-user">
+          <li class="dropdown user-dropdown">
+            <a href="/logout" class="dropdown-toggle"><i class="fa fa-power-off"></i> Log Out</a>
+          </li>
+          {% if current_user.role_id == 7 %}
+          <li><a href="/UserAdmin">用户权限管理</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <div align="center">
+      <div id="sampleList" onmousedown="down(this)" onmouseup="up(this)"></div>
+      <br>
+      <input type="button" id="authority_confirmation" value="权限确认" class="btn btn-default">
+    </div>
+  </div>
+  </div>
+  {% endblock %}
+  <br><br> {% extends "footer.html" %}

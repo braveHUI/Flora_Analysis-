@@ -1,0 +1,335 @@
+{
+  "translate4db": {
+    "采样管编号": {
+      "Translate": "Tube_ID"
+    },
+    "您所在的城市是": {
+      "Translate": "Living_city"
+    },
+    "性别": {
+      "Translate": "Gender",
+      "Value": {
+        "男": 1,
+        "女": 0
+      }
+    },
+    "年龄": {
+      "Translate": "Age"
+    },
+    "身高（厘米）": {
+      "Translate": "Height"
+    },
+    "体重（公斤）": {
+      "Translate": "Weight"
+    },
+    "采样日期": {
+      "Translate": "Sampling_date"
+    },
+    "问卷录入时间": {
+      "Translate": "Questionnaire_date"
+    },
+    "粪便形态": {
+      "Translate": "Stool_shape",
+      "Value": {
+        "一颗颗硬球（难以排出）": 0,
+        "香肠状，但表面凹凸": 1,
+        "香肠状，但表面有裂痕": 2,
+        "香肠或蛇一样，且表面光滑": 3,
+        "断边光滑的柔软块状（易排出）": 4,
+        "粗边蓬松块，糊状": 5,
+        "水状，无固体块": 6
+      }
+    },
+    "排便次数": {
+      "Translate": "Defecation_pattern",
+      "Value": {
+        "一天大于3次": 1,
+        "一天1-2次": 2,
+        "两天1次": 3,
+        "大于三天1次": 4
+      }
+    },
+    "排便时间是否规律": {
+      "Translate": "Defecation_regular",
+      "Value": {
+        "很规律": 1,
+        "有时规律": 2,
+        "经常不规律": 3,
+        "从没规律过": 4
+      }
+    },
+    "规律排便时间段": {
+      "Translate": "Defecation_period",
+      "Value": {
+        "早上起床": 1,
+        "早饭后-中饭前": 2,
+        "中饭后-晚饭前": 3,
+        "晚饭后": 4,
+        "睡前": 5
+      }
+    },
+    "饮酒史": {
+      "Translate": "Alcohol",
+      "Value": {
+        "否": 0,
+        "不饮酒": 0,
+        "少量饮酒": 1,
+        "经常饮酒": 2,
+        "是": 2,
+        "过量饮酒": 3,
+        "长期醉酒": 4,
+        "有，且采样前一周内饮过酒": 5,
+        "有，但采样前一周无饮酒": 6,
+        "无，但采样前一周有饮酒": 7
+      }
+    },
+    "吸烟史": {
+      "Translate": "Smoking",
+      "Value": {
+        "否": 0,
+        "无吸烟史": 0,
+        "曾经吸烟但已戒断": 1,
+        "是": 2,
+        "目前依然吸烟": 2
+      }
+    },
+    "肉类及肉制品": {
+      "Translate": "Meat_product",
+      "Value": {
+        "不吃": 0,
+        "较少": 1,
+        "一般": 2,
+        "较多": 3,
+        "很多": 4
+      }
+    },
+    "新鲜蔬菜": {
+      "Translate": "Fresh_vegetables",
+      "Value": {
+        "不吃": 0,
+        "较少": 1,
+        "一般": 2,
+        "较多": 3,
+        "很多": 4
+      }
+    },
+    "对烹饪方式的嗜好": {
+      "Translate": "Dietary_preference",
+      "Value": {
+        "咸": 1,
+        "甜": 2,
+        "辣": 3,
+        "生": 4,
+        "冷": 5,
+        "硬": 6,
+        "烫": 7,
+        "煎炸": 8,
+        "油腻": 9
+      }
+    },
+    "既往病史": {
+      "Translate": "Past_medical_history",
+      "Value": {
+        "营养不良": "malnutrition",
+        "肺炎": "pneumonia",
+        "高脂血症": "hyperlipemia",
+        "低脂血症": "hypolipidemia",
+        "高血糖": "hyperglycemia",
+        "低血糖": "hypoglycemia",
+        "糖尿病": "diabetes",
+        "偏头痛": "migraine",
+        "急性肠胃炎": "acute_gastroenteritis",
+        "肠癌": "colorectal_cancer",
+        "高尿酸": "hypeluricemia",
+        "痛风": "gout",
+        "阑尾切除": "appendectomy",
+        "高血压": "hypertension",
+        "肝功能异常": "abnormal_liver_function",
+        "脂肪肝": "fatty_liver",
+        "胆囊炎": "cholecystitis",
+        "胆囊结石": "gallstone",
+        "其他": "others",
+        "无": ""
+      }
+    },
+    "家族病史": {
+      "Translate": "Family_history",
+      "Value": {
+        "肠癌": "colorectal_cancer",
+        "糖尿病": "diabetes",
+        "高血压": "hypertension",
+        "肥胖": "obesity",
+        "其他": "others",
+        "无": ""
+      }
+    },
+    "亚健康状态": {
+      "Translate": "Subhealth_state",
+      "Value": {
+        "头痛，头晕，耳鸣": 1,
+        "心慌，胸闷，呼吸困难": 2,
+        "眼花，视力模糊": 3,
+        "失眠，多梦": 4,
+        "咳嗽，咳痰，易感冒": 5,
+        "腹痛，胀气": 6,
+        "恶心，呕吐": 7,
+        "便秘": 8,
+        "腹泻": 9,
+        "易渴，多饮": 10,
+        "尿急，尿痛": 11,
+        "手脚麻木": 12,
+        "关节肿痛": 13,
+        "乳房涨疼": 14,
+        "无": ""
+      }
+    },
+    "平均每周早餐次数": {
+      "Translate": "Breakfasts_weekly",
+      "Value": {
+        "7次": 1,
+        "5-6次": 2,
+        "2-4次": 3,
+        "0-1次": 4
+      }
+    },
+    "平均每周夜宵次数": {
+      "Translate": "Supper_weekly",
+      "Value": {
+        "5-7次": 1,
+        "3-4次": 2,
+        "1-2次": 3,
+        "0次": 4
+      }
+    },
+    "平均每天饮水（一杯250ml）": {
+      "Translate": "Water_daily",
+      "Value": {
+        "≥10杯": 1,
+        "6-9杯": 2,
+        "2-5杯": 3,
+        "≤1杯": 4
+      }
+    },
+    "平时常喝饮品（如茶，可乐，功能型饮料等）": {
+      "Translate": "Drinks_preference",
+      "茶": "tea",
+      "绿茶": "green_tea",
+      "红茶": "black_tea",
+      "花茶": "scented_tea",
+      "普洱茶": "puer_tea",
+      "生普洱茶": "raw_puer",
+      "熟普洱茶": "ripe_puer",
+      "可乐": "coke",
+      "咖啡": "coffee"
+    },
+    "睡眠时间": {
+      "Translate": "Sleeping_time",
+      "Value": {
+        "8小时以上": 1,
+        "6-8小时": 2,
+        "4-6小时": 3,
+        "少于4小时": 4
+      }
+    },
+    "是否失眠": {
+      "Translate": "Insomnia_pattern",
+      "Value": {
+        "从不": 0,
+        "偶尔": 1,
+        "经常": 2
+      }
+    },
+    "是否午睡": {
+      "Translate": "Nap_pattern",
+      "Value": {
+        "从不": 0,
+        "偶尔": 1,
+        "经常": 2
+      }
+    },
+    "空腹血糖": {
+      "Translate": "Fasting_blood_glucose"
+    },
+    "药物服用史": {
+      "Translate": "Medicine"
+    },
+    "正服用的保健品": {
+      "Translate": "Health_product",
+      "Value": {
+        "益生菌": "probiotics",
+        "益生元": "prebiotics",
+        "鱼油": "fish_oil",
+        "其他": "others"
+      }
+    },
+    "甘油三酯": {
+      "Translate": "Triglyceride"
+    },
+    "总胆固醇": {
+      "Translate": "Total_cholesterol"
+    },
+    "高密脂蛋白": {
+      "Translate": "High_density_lipoprotein"
+    },
+    "低密脂蛋白": {
+      "Translate": "Low_density_lipoprotein"
+    },
+    "出生方式": {
+      "Translate": "Way_of_birth",
+      "Value": {
+        "顺产": 1,
+        "剖腹产": 2
+      }
+    },
+    "母乳喂养": {
+      "Translate": "Breastfeeding",
+      "Value": {
+        "母乳": 0,
+        "综合": 1,
+        "奶粉": 2
+      }
+    },
+    "体检频率": {
+      "Translate": "Medical_examination",
+      "Value": {
+        "3年以上一次": 1,
+        "2-3年一次": 2,
+        "每年多于一次": 3,
+        "每年一次": 4
+      }
+    },
+    "每年在药品和保健品上花费": {
+      "Translate": "Spend_on_MH",
+      "＜500元": 0,
+      "500-2000元": 1,
+      "2000-4000元": 2,
+      "4000-6000元": 3,
+      "＞6000元": 4
+    },
+    "问卷状态": {
+      "Translate": "Questionnaire_status",
+      "Value": {
+        "否": 0,
+        "完成": 1,
+        "已抓取": 2
+      }
+    },
+    "备注": {
+      "Translate": "Remarks"
+    },
+    "样品状态": {
+      "Translate": "Status",
+      "Value": {
+        "待出库": 1,
+        "出库": 2,
+        "收样": 3,
+        "待检": 4,
+        "出JSON": 5,
+        "出报告": 6,
+        "已配送": 7,
+        "作废": 8,
+        "无Biom文件":9
+      }
+    }
+  }
+}

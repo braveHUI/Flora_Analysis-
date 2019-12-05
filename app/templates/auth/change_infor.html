@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Change Infor{% endblock %}
+
+{% block page_content %}
+<script>
+  window.onload = function () {
+      $("#change_submit").click(function (){
+        console.log("hala");
+        var username = $("#username").val()||"{{ current_user.username }}";
+        var realname = $("#realname").val();
+        var password = $("#password").val();
+        var pwd_confirm = $("#pwd_confirm").val();
+        var email = $("#email").val();
+        var data = {
+            "username": username,
+            "realname": realname,
+            "password": password,
+            "pwd_confirm":pwd_confirm,
+            "email":email
+          }
+        $.ajax({
+            type: 'post',
+            url: '/ChangeInfor',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            statusCode: {
+              404: function () {
+                alert("网络错误")
+              },
+              200: alert("已提交修改！"),
+              500: function () {
+                alert("系统错误")
+              }
+            }
+          });
+        });
+      }
+
+</script>
+<div class="page-header">
+<a href="/"><img src="/static/imgs/logo.png" height="50" width=auto"/></a>
+</div>
+<div class="col-md-4">
+    <div class="inforlist">
+        <div class="form-group  ">
+            <label class="control-label" for="username">用户名</label>
+            <input class="form-control" id="username" name="username"  placeholder="{{ current_user.username }}" value="" type="text">
+        </div>
+        <div class="form-group  ">
+            <label class="control-label" for="realname">真实姓名</label>
+            <input class="form-control" id="realname" name="realname"  placeholder="{{ current_user.realname }}" value="" type="text">
+        </div>
+        <div class="form-group  ">
+            <label class="control-label" for="password">密码</label>
+            <input class="form-control" id="password" name="password"  value="" type="text">
+        </div>
+        <div class="form-group  ">
+            <label class="control-label" for="pwd_confirm">重复密码</label>
+            <input class="form-control" id="pwd_confirm" name="pwd_confirm"  value="" type="text">
+        </div>
+        <div class="form-group  ">
+            <label class="control-label" for="email">邮箱</label>
+            <input class="form-control" id="email" name="email" placeholder="{{ current_user.email }}" value="" type="text">
+        </div>
+        <input class="btn btn-default" id="change_submit" name="submit" value="修改资料" type="submit">
+    </div>
+</div>
+{% endblock %}

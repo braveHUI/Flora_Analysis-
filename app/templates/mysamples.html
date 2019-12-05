@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>我的样品</title>
+    <script src="/static/js/order.js"></script>
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/local.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/tablePage.js"></script>
+    <script>
+      window.onload = function () {
+        $.getJSON("/mysamplesByDefault", loadSampleList);
+
+        $("#sampleselect_btn").click(function () {
+          var tube_id = $("#tube_id").val();
+          var agent_contacts = $("#agent_contacts").val();
+          var time_start = $("#time_start").val();
+          var time_end = $("#time_end").val();
+          var status = $("#status").val();
+          var data = {
+            "Status": status,
+            "Tube_ID": tube_id,
+            "Agent_contacts": agent_contacts,
+            "Time_start": time_start,
+            "Time_end": time_end
+          }
+          $('#mySample').empty();
+
+          $.ajax({
+            type: 'post',
+            url: '/mysampleByDetail',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            statusCode: {
+              404: function () {
+                alert("网络错误")
+              },
+              200: loadSampleList,
+              500: function () {
+                alert("系统错误")
+              }
+            }
+          })
+        });
+
+        $("#download").click(function () {
+          var array = new Array();
+          $("[name= items]:checkbox:checked").each(function () {
+            array.push($(this).val());
+          });
+          $.ajax({
+            type: 'post',
+            url: "/download_salesupdate",
+            contentType: 'application/json',
+            data: JSON.stringify(array),
+            statusCode: {
+              404: function () {
+                alert("网络错误！")
+              },
+              200: function () {
+                window.location.href = "/PYSalesUpdate.xls/template/download"
+              },
+              300: function () {
+                alert("有效样品个数为0！")
+              },
+              500: function () {
+                alert("系统错误！")
+              }
+            }
+          });
+        });
+      }
+
+      function selectAll() {
+        $("[name=items]:checkbox").each(function () {
+          $(this).prop("checked", true);
+        });
+      }
+
+      function unSelect() {
+        $("[name=items]:checkbox").each(function () {
+          $(this).prop("checked", false);
+        });
+      }
+
+      function reverse() {
+        $("[name=items]:checkbox").each(function () {
+          this.checked = !this.checked;
+        });
+      }
+
+      function loadSampleList(data) {
+        $('#mySample').empty();
+        var html = "<table id='tableSort'>";
+        html += "<thead><tr>" +
+          "<th class='text-center'>标记</th>" +
+          "<th type='string' class='text-center'>作废</th>" +
+          "<th type='string' class='text-center'>样品编号</th>" +
+          "<th type='string' class='text-center'>采样管编号</th>" +
+          "<th type='string' class='text-center'>样品备注</th>" +
+          "<th type='string' class='text-center'>状态</th>" +
+          "<th type='string' class='text-center'>更新时间</th>" +
+          "<th type='string' class='text-center'>产品编号</th>" +
+          "<th type='string' class='text-center'>谱元配状态</th>" +
+          "<th type='string' class='text-center'>报告类型</th>" +
+          "<th type='string' class='text-center'>修改</th>" +
+          "<th type='string' class='text-center'>新增</th>" +
+          "<th type='string' class='text-center'>销售项目</th>" +
+          "<th type='string' class='text-center'>客户渠道</th>" +
+          "<th type='string' class='text-center'>渠道内部编号</th>" +
+          "<th type='string' class='text-center'>客户联系人</th>" +
+          "<th type='string' class='text-center'>谱元配提前出库</th>" +
+          "<th type='string' class='text-center'>谱元配二次出库</th>" +
+          "<th type='string' class='text-center'>申请时间</th>" +
+          "<th type='date' class='text-center'>采样管失效日期</th>" +
+          "<th type='string' class='text-center'>收样时间</th>" +
+          "<th type='string' class='text-center'>样品状态</th>" +
+          "</tr></thead><tbody> ";
+        for (var i in data) {
+          html += "<tr><td><input value='" + data[i]["PriSID"] + "' type='checkbox' name='items' onmouseover = 'move(this)'></td>";
+          html += "<td><button onclick='invalidPriSID(" + data[i]["PriSID"] + ")' type='button' class='btn btn-danger'>" +
+            "<span class='fa fa-trash-o fa-lg'></span></button> </td>" +
+            "<td>" + data[i]["Sample_ID"] + "</td>" +
+            "<td><a onclick= 'delieverPriSID(" + data[i]["PriSID"] + ")' href='detailsales'>" + data[i]["Tube_ID"] + "</a></td>" +
+            "<td><input type='text' value='" + data[i]['Sample_remarks'] + "' id='sample_remarks" + data[i]["PriSID"] + "'> </td>" +
+            "<td>" + data[i]["Status"] + "</td>" +
+            "<td>" + data[i]["PYFormula_update_date"] + "</td>" +
+            // "<td><input type='text' value='" + data[i]['Project_name'] + "' id='project_name" + data[i]["PriSID"] + "'> </td>" +
+            "<td><select id='project_name" + data[i]["PriSID"] + "' style='input' >" +
+            "<option>" + data[i]['Project_name'] + "</option>" +
+            "<option value='tiyan'>谱元新肠态-体验版</option>" +
+            "<option value='quanjian'>谱元新肠态-全检版</option>" +
+            "<option value='medicine'>谱元新肠态-医生版</option>" +
+            "<option value='粑粑说-基础版'>粑粑说-基础版</option>" +
+            "<option value='婴幼儿-营养版'>婴幼儿-营养版</option>" +
+            "<option value='粑粑说-精英版'>粑粑说-精英版</option></select> </td>" +
+            // "<td><input onclick='updatePriSID(" + data[i]["PriSID"] + ")' value='版本更改' type='button' class='btn btn-primary'></td>" +
+            "<td><select id='pyformula_status" + data[i]["PriSID"] + "' style='input' >" +
+            "<option>" + data[i]['PYFormula_status'] + "</option>" +
+            "<option value='0'>无需出具</option>" +
+            "<option value='1'>待出具</option>'</select> </td>" +
+            // "<td>" + data[i]["PYFormula_status"] +
+            "<td><select id='report_type" + data[i]["PriSID"] + "' style='input' >" +
+            "<option>" + data[i]['Report_type'] + "</option>" +
+            "<option value='1'>移动端查询</option>" +
+            "<option value='2'>邮件发送</option>" +
+            "<option value='3'>打印</option>" +
+            "<option value='4'>无需发送</option></select> </td>" +
+            "<td><button onclick='updatePriSID(" + data[i]["PriSID"] + ")' type='button' class='btn btn-warning'>" +
+            "<span class='fa fa-floppy-o fa-lg'></span></button> </td>" +
+            "<td><button onclick='createPriSID(" + data[i]["PriSID"] + ")' type='button' class='btn btn-primary'>" +
+            "<span class='fa fa-plus fa-lg'></span></button> </td>" +
+            "<td>" + data[i]["Sales_items"] + "</td>" +
+            "<td>" + data[i]["Agent_name"] + "</td>" +
+            "<td>" + data[i]["Agent_sampleid"] + "</td>" +
+            "<td>" + data[i]["Agent_contacts"] + "</td>" +
+            "<td>" + data[i]["PYFormula_release_ahead"] +
+            "<td>" + data[i]["PYFormula_release_record"] +
+            "<td>" + data[i]["Release_apply_date"] + "</td>" +
+            "<td>" + data[i]["Tube_expiry_date"] + "</td>" +
+            "<td>" + data[i]["Sample_back_date"] + "</td>" +
+            "<td>" + data[i]["Sample_status"] + "</td>" +
+            "</td></tr>";
+        }
+        html += "</tbody></table>";
+        $('#mySample').append(html);
+
+        order();
+
+        len =$("#tableSort tr").length - 1;    // 求这个表的总行数，剔除第一行介绍
+        page=len % pageSize==0 ? len/pageSize : Math.floor(len/pageSize)+1;//根据记录条数，计算页数
+        // alert("page==="+page);
+        curPage=1;    // 设置当前为第一页
+        displayPage(1);//显示第一页
+        document.getElementById("btn0").innerHTML="当前 " + curPage + "/" + page + " 页    每页 ";    // 显示当前多少页
+        document.getElementById("sjzl").innerHTML="数据总量 " + len + "";        // 显示数据量
+        document.getElementById("pageSize").value = pageSize;
+      }
+
+      function invalidPriSID(id) {
+        var sample_remarks = $("#sample_remarks" + id).val();
+        var data = {
+          "PriSID": id,
+          "Sample_remarks": sample_remarks
+        };
+        $.ajax({
+          type: 'post',
+          url: "/invalidSample",
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          statusCode: {
+            404: function () {
+              alert("网络错误！")
+            },
+            405: function () {
+              alert("请备注作废理由！")
+            },
+            200: function () {
+              alert("保存成功！")
+              $("#sample_remarks" + id).attr("disabled", "disabled")
+            },
+            300: function () {
+              alert("该样品不可作废！");
+              $("#sample_remarks" + id).attr("disabled", "disabled")
+            },
+            500: function () {
+              alert("系统错误！")
+            }
+          }
+        });
+      }
+
+      function updatePriSID(id) {
+        var project_name = $("#project_name" + id).val();
+        var pyformula_status = $("#pyformula_status" + id).val();
+        var report_type = $("#report_type" + id).val();
+        var sample_remarks = $("#sample_remarks" + id).val();
+        var data = {
+          "PriSID": id,
+          "Project_name": project_name,
+          "PYFormula_status": pyformula_status,
+          "Report_type": report_type,
+          "Sample_remarks": sample_remarks
+        };
+        $.ajax({
+          type: 'post',
+          url: "/updateMySample",
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          statusCode: {
+            404: function () {
+              alert("网络错误！")
+            },
+            405: function () {
+              alert("请备注申请理由！")
+            },
+            200: function () {
+              alert("保存成功！");
+              $("#sample_remarks" + id).attr("disabled", "disabled")
+            },
+            300: function () {
+              alert("该样品不可修改！");
+              $("#sample_remarks" + id).attr("disabled", "disabled")
+            },
+            500: function () {
+              alert("系统错误！")
+            }
+          }
+        });
+      }
+
+      function createPriSID(id) {
+        var project_name = $("#project_name" + id).val();
+        var pyformula_status = $("#pyformula_status" + id).val();
+        var report_type = $("#report_type" + id).val();
+        var sample_remarks = $("#sample_remarks" + id).val();
+        var data = {
+          "PriSID": id,
+          "Project_name": project_name,
+          "PYFormula_status": pyformula_status,
+          "Report_type": report_type,
+          "Sample_remarks": sample_remarks
+        };
+        $.ajax({
+          type: 'post',
+          url: "/createMySample",
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          statusCode: {
+            404: function () {
+              alert("网络错误！")
+            },
+            400: function () {
+              alert("请备注升级理由！")
+            },
+            405: function () {
+              alert("报告版本重复！")
+            },
+            200: function () {
+              alert("新增成功！");
+              $("#sample_remarks" + id).attr("disabled", "disabled")
+            },
+            300: function () {
+              alert("该样品不可新增！");
+              $("#sample_remarks" + id).attr("disabled", "disabled")
+            },
+            500: function () {
+              alert("系统错误！")
+            }
+          }
+        });
+      }
+
+      function delieverPriSID(prisid) {
+        sessionStorage.setItem("PriSID", prisid);
+        // sessionStorage.setItem("PriSID", prisid);
+      }
+
+      function doUpload() {
+        var formData = new FormData($("#uploadForm")[0]);
+        $.ajax({
+          type: 'post',
+          url: "/uploadSalesSheet",
+          data: formData,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false,
+          statusCode: {
+            404: function () {
+              alert("网络错误！")
+            },
+            200: function () {
+              alert("上传成功！");
+            },
+            500: function () {
+              alert("系统错误，请联系系统管理员！")
+            },
+            0: function () {
+              alert("上传失败！请检测申请表")
+            }
+          }
+
+        });
+      }
+
+      var isDown = false;
+
+      function up(check) {
+        isDown = false;
+      }
+
+      function down(check) {
+        isDown = true;
+      }
+
+      function move(check) {
+        if (isDown) {
+          check.checked = true;
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+          <a class="navbar-brand" href=#>我的样品</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        {% include "sider.html" %}
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+              <a href="/logout" class="dropdown-toggle"><i class="fa fa-power-off"></i> Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">查询</div>
+              <div class="panel-body">
+                <div class="form-group col-lg-2">
+                  <label>按采样管编号查询</label>
+                  <input id="tube_id" class="form-control ">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>按客户联系人查询</label>
+                  <input id="agent_contacts" class="form-control ">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>更新起始日期查询</label>
+                  <input id="time_start" type="date" class="form-control ">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>更新截止日期查询</label>
+                  <input id="time_end" type="date" class="form-control ">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>状态</label>
+                  <select id="status" class="form-control ">
+                      <option value="">全部</option>
+                      <option value="1">待出库</option>
+                      <option value="2">出库</option>
+                      <option value="3">收样</option>
+                      <option value="4">待检</option>
+                      <option value="5">分析</option>
+                      <option value="6">出报告</option>
+                      <option value="7">已配送</option>
+                      <option value="8">作废</option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-12">
+                  <input type="button" id="sampleselect_btn" value="查询" class="btn btn-default">
+                </div>
+              </div>
+              <div class="panel-heading">维护样品信息</div>
+              <div class="panel-body">
+                <div class="form-group col-lg-2">
+                  <label>输入列名</label>
+                  <input id="colName" class="form-control ">
+                  <!-- </div> -->
+                  <!-- <div class="form-group col-lg-2"> -->
+                  <label>选择方式</label>
+                  <select id="rule" class="form-control">
+                    <option value="include">包含</option>
+                    <option value="equal">等于</option>
+                    <option value="bigger">大或等于</option>
+                    <option value="smaller">小或等于</option>
+                  </select>
+                  <!-- </div> -->
+                  <!-- <div class="form-group col-lg-2"> -->
+                  <label>输入内容</label>
+                  <input name="key" type="text" id="key" onkeydown="onSearch(this)" value="" class="form-control " />
+                  <p id="tips"></p>
+                  <input type="button" value="全选" class="btn btn-default" onclick="selectAll()">
+                  <input type="button" value="反选" class="btn btn-default" onclick="reverse()">
+                  <input type="button" value="全不选" class="btn btn-default" onclick="unSelect()">
+                </div>
+                <div class="form-group col-lg-2">
+                  <form id="uploadForm">
+                    <label>上传更新</label>
+                    <input type="file" name="file" class="btn btn-default" />
+                    <br>
+                    <input type="button" value="模版下载" class="btn btn-default" id="download">
+                    <input type="button" value="上传" onclick="doUpload()" class="btn btn-default" />
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mySample" onmousedown="down(this)" onmouseup="up(this)"></div>
+      <br>
+
+      <a id="btn0"></a>
+      <input id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a>
+      <a href="javascript:void(0);" id="pageSizeSet" onclick="setPageSize()">设置</a>&nbsp;
+      <a id="sjzl"></a>&nbsp;
+      <a  href="javascript:void(0);" id="btn1" onclick="firstPage()">首页</a>
+      <a  href="javascript:void(0);" id="btn2" onclick="frontPage()">上一页</a>
+      <a  href="javascript:void(0);" id="btn3" onclick="nextPage()">下一页</a>
+      <a  href="javascript:void(0);" id="btn4" onclick="lastPage()">尾页</a>&nbsp;
+      <a>转到&nbsp;</a>
+      <input id="changePage" type="text" size="1" maxlength="4"/>
+      <a>页&nbsp;</a>
+      <a  href="javascript:void(0);" id="btn5" onclick="changePage()">跳转</a><br> {% extends "footer.html" %}
+
+    </div>
+  </body>
+
+</html>

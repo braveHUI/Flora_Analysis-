@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>sampleList</title>
+    <script src="/static/js/order.js"></script>
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/local.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      window.onload = function () {
+        $.getJSON("/agentByPriSID", {
+          "key": sessionStorage.getItem("PriSID")
+        }, loadSampleList);
+
+      };
+
+      function loadSampleList(data) {
+        $('#sampleList').empty();
+        var html = "客户详情<br>";
+        html += "采样管编号: " + data["Tube_ID"] + "<br>";
+        html += "渠道负责人: " + data["Agent_manager"] + "<br>";
+        html += "渠道内部编号: " + data["Agent_sampleid"] + "<br>";
+        html += "客户渠道: " + data["Agent_name"] + "<br>";
+        html += "客户联系人: " + data["Agent_contacts"] + "<br>";
+        html += "联系电话: " + data["Agent_phone"] + "<br>";
+        html += "联系邮箱: " + data["Agent_email"] + "<br>";
+        html += "联系地址: " + data["Agent_address"] + "<br>";
+        $('#sampleList').append(html);
+
+        order()
+      }
+
+      var isDown = false;
+
+      function up(check) {
+        isDown = false;
+      }
+
+      function down(check) {
+        isDown = true;
+      }
+
+      function move(check) {
+        if (isDown) {
+          check.checked = true;
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+          <a class="navbar-brand" href=#>sampleList</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        {% include "sider.html" %}
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+              <a href="/logout" class="dropdown-toggle"><i class="fa fa-power-off"></i> Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="sampleList" onmousedown="down(this)" onmouseup="up(this)"></div><br>
+      <input type="button" name="Submit" onclick="javascript:history.back(-1);" value="返回"/>
+      <br><br> {% extends "footer.html" %}
+
+    </div>
+  </body>
+
+</html>

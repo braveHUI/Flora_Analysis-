@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>sampleList</title>
+    <script src="/static/js/order.js"></script>
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/local.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      window.onload = function () {
+
+        $.getJSON("/pyformulaByPriSID", {
+          "key": sessionStorage.getItem("PriSID")
+        }, loadPYFormula);
+
+      }
+
+      function updatePYFormula(data) {
+        var Probio_fitW = $("#Probio_fitW").val();
+        var Inulin_VILOF = $("#Inulin_VILOF").val();
+        var PYFormula_A = $("#PYFormula_A").val();
+        var PYFormula_B = $("#PYFormula_B").val();
+        var PYFormula_C = $("#PYFormula_C").val();
+        var PYFormula_D = $("#PYFormula_D").val();
+        var PYFormula_E = $("#PYFormula_E").val();
+        var PYFormula_F = $("#PYFormula_F").val();
+        var PYFormula_G = $("#PYFormula_G").val();
+        var PYFormula_H = $("#PYFormula_H").val();
+        var PYFormula_Other = $("#PYFormula_Other").val();
+        var data = {
+          "Probio-fitW": Probio_fitW,
+          "Inulin-VILOF": Inulin_VILOF,
+          "PYF-A": PYFormula_A,
+          "PYF-B": PYFormula_B,
+          "PYF-C": PYFormula_C,
+          "PYF-D": PYFormula_D,
+          "PYF-E": PYFormula_E,
+          "PYF-F": PYFormula_F,
+          "PYF-G": PYFormula_G,
+          "PYF-H": PYFormula_H,
+          "PYF-Others": PYFormula_Other,
+          "PriSID": sessionStorage.getItem("PriSID")
+        }
+        $('#PYFormula').empty();
+
+        $.ajax({
+          type: 'post',
+          url: '/updatePYFormula',
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          statusCode: {
+            404: function () {
+              alert("网络错误！")
+            },
+            200: function () {
+              alert("更新成功！")
+              $.getJSON("/pyformulaByPriSID", {
+                "key": sessionStorage.getItem("PriSID")
+              }, loadPYFormula);
+            },
+            300: function () {
+              alert("该样品不可更新！")
+            },
+            500: function () {
+              alert("系统错误")
+            }
+          }
+        })
+      }
+
+      function loadPYFormula(data) {
+        $('#PYFormula').empty();
+        var html =
+          "<div class='panel-body'>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>益适优·白(盒)</label>" +
+          "<input id='Probio_fitW' value='" + data["Probio-fitW"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>菊粉·维乐夫(盒)</label>" +
+          "<input id='Inulin_VILOF' value='" + data["Inulin-VILOF"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>谱元配产品·A</label>" +
+          "<input id='PYFormula_A' value='" + data["PYF-A"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>谱元配产品·B</label>" +
+          "<input id='PYFormula_B' value='" + data["PYF-B"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>谱元配产品·C</label>" +
+          "<input id='PYFormula_C' value='" + data["PYF-C"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>谱元配产品·D</label>" +
+          "<input id='PYFormula_D' value='" + data["PYF-D"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>谱元配产品·E</label>" +
+          "<input id='PYFormula_E' value='" + data["PYF-E"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>谱元配产品·F</label>" +
+          "<input id='PYFormula_F' value='" + data["PYF-F"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>谱元配产品·G</label>" +
+          "<input id='PYFormula_G' value='" + data["PYF-G"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-1'>" +
+          "<label>谱元配产品·H</label>" +
+          "<input id='PYFormula_H' value='" + data["PYF-H"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-2'>" +
+          "<label>谱元配产品·其他</label>" +
+          "<input id='PYFormula_Other' value='" + data["PYF-Others"] + "' class='form-control '>" +
+          "</div>" +
+          "<div class='form-group col-lg-12'>" +
+          "<input type='button' onclick='updatePYFormula()' id='PYFormula_btn' value='提交' class='btn btn-default'>" +
+          "</div>" +
+          "</div>" +
+          "</div>";
+        $('#PYFormula').append(html);
+
+        order()
+      }
+
+      var isDown = false;
+
+      function up(check) {
+        isDown = false;
+      }
+
+      function down(check) {
+        isDown = true;
+      }
+
+      function move(check) {
+        if (isDown) {
+          check.checked = true;
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+          <a class="navbar-brand" href=#>sampleList</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        {% include "sider.html" %}
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+              <a href="/logout" class="dropdown-toggle"><i class="fa fa-power-off"></i> Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">谱元配方案</div>
+          <div id="PYFormula" onmousedown="down(this)" onmouseup="up(this)"></div>
+        </div>
+      </div>
+      <br><br>
+      <input type="button" name="Submit" onclick="javascript:history.back(-1);" value="返回" />
+      <br><br> {% extends "footer.html" %}
+
+    </div>
+  </body>
+
+</html>

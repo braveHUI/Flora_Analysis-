@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>我的样品</title>
+    <script src="/static/js/order.js"></script>
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/local.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+          <a class="navbar-brand" href=#>日志查看</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        {% include "sider.html" %}
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+              <a href="/logout" class="dropdown-toggle"><i class="fa fa-power-off"></i> Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <h2>SampleBiom failure!指该样品在DAS系统里面并未找到</h2>
+      <div id="check_sample" onmousedown="down(this)" onmouseup="up(this)">
+        <table border="1">
+          <tr><th class="text-center">PYSample ID</th><th class="text-center">状态</th><th class="text-center">处理</th></tr>
+            {% for k,v in con.items() %}
+              <tr>
+                <td>{{ k }}</td><td>{{ v }}</td><td><button onclick="window.location.href='remove_stat/{{ k }}'">重试</button></td>
+              </tr>
+            {% endfor %}
+        </table>
+
+      </div>
+      <br><br> {% extends "footer.html" %}
+
+    </div>
+  </body>
+
+</html>

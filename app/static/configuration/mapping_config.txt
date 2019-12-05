@@ -1,0 +1,17 @@
+SampleID
+gender
+age
+SJC
+TJC
+CRP
+DAS28.CRP
+ESR
+DAS28.ESR
+Disease
+durition
+Drugs
+Drug_time
+heigh
+weight
+CCP
+RF

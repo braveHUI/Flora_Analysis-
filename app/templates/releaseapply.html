@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>检测申请</title>
+    <script src="/static/js/order.js"></script>
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/local.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/tablePage.js"></script>
+    <script>
+      window.onload = function () {
+        $.getJSON("/applyByDefault", loadReleaseList);
+
+        $("#download").click(function () {
+          window.location.href = "/PYReleaseApply.xlsx/template/download"
+        });
+        //输出选中的值
+        $("#add").click(function () {
+          var array = new Array();
+          $("[name= items]:checkbox:checked").each(function () {
+            array.push($(this).val());
+          });
+          $.ajax({
+            type: 'post',
+            url: "/add_cachelist",
+            contentType: 'application/json',
+            data: JSON.stringify(array),
+            statusCode: {
+              404: function () {
+                alert("网络错误！")
+              },
+              200: function () {
+                alert("添加成功！")
+              },
+              500: function () {
+                alert("系统错误！")
+              }
+            }
+          });
+        });
+        $("#empty").click(function () {
+          $.ajax({
+            type: 'post',
+            url: "/clear_cachelist",
+            contentType: 'application/json',
+            statusCode: {
+              404: function () {
+                alert("网络错误！");
+              },
+              200: function () {
+                alert("购物车已清空！")
+              },
+              500: function () {
+                alert("系统错误！")
+              }
+            }
+          });
+        });
+        $("#analyse2").click(function () {
+          var string = "你选中的是：\r\n";
+          $("[name= analyse]:checkbox:checked").each(function () {
+            string += $(this).val() + "\r\n";
+          });
+        });
+        $("#agent_name_btn").click(function () {
+          var agent_name = $("#agent_name").val();
+          $('#releaseApply').empty();
+          $.getJSON("/applyByAgent", {
+            "key": agent_name
+          }, loadReleaseList); //样品编号
+        });
+        $("#agent_manager_btn").click(function () {
+          var agent_manager = $("#agent_manager").val();
+          $('#releaseApply').empty();
+          $.getJSON("/applyByManager", {
+            "key": agent_manager
+          }, loadReleaseList); //渠道经理
+        });
+        $("#project_name_btn").click(function () {
+          var project_name = $("#project_name").val();
+          $('#releaseApply').empty();
+          $.getJSON("/applyByProject", {
+            "key": project_name
+          }, loadReleaseList); //项目编号
+        });
+      };
+
+      function selectAll() {
+        $("[name=items]:checkbox").each(function () {
+          $(this).prop("checked", true);
+        });
+
+      }
+
+      function unSelect() {
+        $("[name=items]:checkbox").each(function () {
+          $(this).prop("checked", false);
+        });
+      }
+
+      function reverse() {
+        $("[name=items]:checkbox").each(function () {
+          this.checked = !this.checked;
+
+        });
+      }
+
+      function loadReleaseList(data) {
+        $('#releaseApply').empty();
+        var html = "<table id='tableSort'>";
+        html += "<thead><tr>" +
+          // "<th class='text-center'>标记</th>" +
+          "<th type='number' class='text-center'>样品序号</th>" +
+          "<th type='string' class='text-center'>产品编号</th>" +
+          "<th type='string' class='text-center'>客户渠道</th>" +
+          "<th type='string' class='text-center'>渠道负责人</th>" +
+          "<th type='string' class='text-center'>渠道内部编号</th>" +
+          "<th type='string' class='text-center'>申请日期</th>" +
+          "<th type='string' class='text-center'>申请人</th>" +
+          "<th type='string' class='text-center'>客户联系人</th>" +
+          "<th type='string' class='text-center'>客户联系电话</th>" +
+          "<th type='string' class='text-center'>客户联系邮箱</th>" +
+          "<th type='string' class='text-center'>客户联系地址</th>" +
+          "<th type='string' class='text-center'>报告类型</th>" +
+          "<th type='string' class='text-center'>谱元配·状态</th>" +
+          "<th type='string' class='text-center'>谱元配提前出库</th>" +
+          "</tr></thead><tbody> ";
+        for (var i in data) {
+          // html += "<tr><td><input value='" + data[i]["PriSID"] + "' type='checkbox' name='items' onmouseover = 'move(this)'></td>";
+          html += "<tr>";
+          html +=
+            "<td>" + i + "</td>" +
+            "<td>" + data[i]["Project_name"] + "</td>" +
+            "<td>" + data[i]["Agent_name"] + "</td>" +
+            "<td>" + data[i]["Agent_manager"] + "</td>" +
+            "<td>" + data[i]["Agent_sampleid"] + "</td>" +
+            "<td>" + data[i]["Release_apply_date"] + "</td>" +
+            "<td>" + data[i]["Release_apply_user"] + "</td>" +
+            "<td>" + data[i]["Agent_contacts"] + "</td>" +
+            "<td>" + data[i]["Agent_phone"] + "</td>" +
+            "<td>" + data[i]["Agent_email"] + "</td>" +
+            "<td>" + data[i]["Agent_address"] + "</td>" +
+            "<td>" + data[i]["Report_type"] + "</td>" +
+            "<td>" + data[i]["PYFormula_status"] + "</td>" +
+            "<td>" + data[i]["PYFormula_release_ahead"] + "</td></tr>";
+        }
+        html += "</tbody></table>";
+        $('#releaseApply').append(html);
+
+        order();
+
+        len =$("#tableSort tr").length - 1;    // 求这个表的总行数，剔除第一行介绍
+        page=len % pageSize==0 ? len/pageSize : Math.floor(len/pageSize)+1;//根据记录条数，计算页数
+        // alert("page==="+page);
+        curPage=1;    // 设置当前为第一页
+        displayPage(1);//显示第一页
+        document.getElementById("btn0").innerHTML="当前 " + curPage + "/" + page + " 页    每页 ";    // 显示当前多少页
+        document.getElementById("sjzl").innerHTML="数据总量 " + len + "";        // 显示数据量
+        document.getElementById("pageSize").value = pageSize;
+      }
+
+      function onSearch(obj) {
+        setTimeout(function () {
+          var storeId = document.getElementById('tableSort');
+          var col = storeId.getElementsByTagName("th");
+          var array = new Array()
+          for (var i in col) {
+            array.push(col[i].innerHTML)
+          }
+          var rule = $('#rule option:selected').val();
+          var colName = $("#colName").val();
+          var searchCol = array.indexOf(colName);
+          var rowsLength = storeId.rows.length;
+          var key = obj.value;
+          if (rule == "bigger") {
+            for (var i = 1; i < rowsLength; i++) {
+              if (searchCol == -1) {
+                $("#tips").empty();
+                $("#tips").append("请输入正确的列名")
+              } else {
+                $("#tips").empty();
+                var searchText = Number(storeId.rows[i].cells[searchCol].innerHTML);
+                if (searchText < Number(key)) {
+                  //storeId.rows[i].style.display='none';
+                  //使不满足条件的的行为灰色
+                  storeId.rows[i].style.color = '#aaaaaa';
+                  storeId.rows[i].getElementsByTagName("input")[0].checked = false
+                } else {
+                  //使满足条件的行为黑色
+                  storeId.rows[i].style.color = 'black';
+                  //勾选满足条件的行
+                  storeId.rows[i].getElementsByTagName("input")[0].checked = true
+                }
+              }
+
+            }
+          } else if (rule == "smaller") {
+            for (var i = 1; i < rowsLength; i++) {
+              if (searchCol == -1) {
+                $("#tips").empty();
+                $("#tips").append("请输入正确的列名")
+              } else {
+                $("#tips").empty();
+                var searchText = Number(storeId.rows[i].cells[searchCol].innerHTML);
+                if (searchText > Number(key)) {
+                  //storeId.rows[i].style.display='none';
+                  storeId.rows[i].style.color = '#aaaaaa';
+                  storeId.rows[i].getElementsByTagName("input")[0].checked = false
+                } else {
+                  storeId.rows[i].style.color = 'black';
+                  storeId.rows[i].getElementsByTagName("input")[0].checked = true
+                  //storeId.rows[i].style.display='';
+                }
+              }
+            }
+          } else if (rule == "include") {
+            for (var i = 1; i < rowsLength; i++) {
+              if (searchCol == -1) {
+                $("#tips").empty();
+                $("#tips").append("请输入正确的列名")
+              } else {
+                $("#tips").empty();
+                var searchText = storeId.rows[i].cells[searchCol].innerHTML;
+                if (searchText.match(key)) {
+                  storeId.rows[i].style.color = 'black';
+                  storeId.rows[i].getElementsByTagName("input")[0].checked = true
+                } else {
+                  storeId.rows[i].style.color = '#aaaaaa';
+                  storeId.rows[i].getElementsByTagName("input")[0].checked = false
+                }
+              }
+            }
+          } else {
+            for (var i = 1; i < rowsLength; i++) {
+              if (searchCol == -1) {
+                $("#tips").empty();
+                $("#tips").append("请输入正确的列名")
+              } else {
+                $("#tips").empty();
+                var searchText = Number(storeId.rows[i].cells[searchCol].innerHTML);
+                if (searchText == Number(key)) {
+                  storeId.rows[i].style.color = 'black';
+                  storeId.rows[i].getElementsByTagName("input")[0].checked = true
+                } else {
+                  //storeId.rows[i].style.display='none';
+                  storeId.rows[i].style.color = '#aaaaaa';
+                  storeId.rows[i].getElementsByTagName("input")[0].checked = false
+                }
+              }
+            }
+          }
+        }, 200);
+      }
+
+      function doUpload() {
+        var formData = new FormData($("#uploadForm")[0]);
+        $.ajax({
+          type: 'post',
+          url: "/uploadApplySheet",
+          data: formData,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false,
+          statusCode: {
+            404: function () {
+              alert("网络错误！")
+            },
+            200: function () {
+              alert("上传成功！");
+              $.getJSON("/applyByDefault", loadReleaseList);
+            },
+            500: function () {
+              alert("系统错误，请联系系统管理员！")
+            },
+            0: function () {
+              alert("上传失败！请检测申请表")
+            }
+          }
+
+        });
+      }
+
+      function query() {
+        $('#releaseApply').empty();
+        $.getJSON("/query_by_uploadfile", loadReleaseList);
+      }
+
+      function delieverPriSID(prisid) {
+        sessionStorage.setItem("PriSID", prisid);
+        // sessionStorage.setItem("PriSID", prisid);
+      }
+
+      var isDown = false;
+
+      function up(check) {
+        isDown = false;
+      }
+
+      function down(check) {
+        isDown = true;
+      }
+
+      function move(check) {
+        if (isDown) {
+          check.checked = true;
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+          <a class="navbar-brand" href=#>检测申请</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        {% include "sider.html" %}
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+              <a href="/logout" class="dropdown-toggle"><i class="fa fa-power-off"></i> Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">申请出库</div>
+              <div class="panel-body">
+                <div class="form-group col-lg-2">
+                  <form id="uploadForm">
+                    <label>上传文件</label>
+                    <input type="file" name="file" class="btn btn-default" /><br>
+                    <input type="button" value="上传" onclick="doUpload()" class="btn btn-default" />
+                    <!-- <input type="button" value="查询" onclick="query()" class="btn btn-default"> -->
+                    <input type="button" value="模版下载" class="btn btn-default" id="download">
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="panel panel-default">
+              <div class="panel-heading">查询</div>
+              <div class="panel-body">
+                <div class="form-group col-lg-2">
+                  <label>按客户渠道查询</label>
+                  <input id="agent_name" class="form-control ">
+                </div>
+                <div class="form-group col-lg-12">
+                  <input type="button" id="agent_name_btn" value="查询" class="btn btn-default">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>按渠道负责人查询</label>
+                  <input id="agent_manager" class="form-control ">
+                </div>
+                <div class="form-group col-lg-12">
+                  <input type="button" id="agent_manager_btn" value="查询" class="btn btn-default">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>按产品编号查询</label>
+                  <input id="project_name" class="form-control ">
+                </div>
+                <div class="form-group col-lg-12">
+                  <input type="button" id="project_name_btn" value="查询" class="btn btn-default">
+                </div>
+              </div>
+            </div> -->
+            <!-- <div class="panel panel-default">
+              <div class="panel-heading">筛选</div>
+              <div class="panel-body">
+                <div class="form-group col-lg-2">
+                  <label>输入列名</label>
+                  <input id="colName" class="form-control ">
+                  <p id="tips"></p>
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>选择筛选方式</label>
+                  <select id="rule" class="form-control">
+                                <option value="bigger">大或等于</option>
+                                <option value="smaller">小或等于</option>
+                                <option value="equal">等于</option>
+                                <option value="include">包含</option>
+                            </select>
+
+                </div>
+                <div class="form-group col-lg-12">
+                  <input name="key" type="text" id="key" onkeydown="onSearch(this)" value="" class="form-control " />
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- <input type="button" value="全选" class="btn btn-default" onclick="selectAll()">
+      <input type="button" value="全不选" class="btn btn-default" onclick="unSelect()">
+      <input type="button" value="反选" class="btn btn-default" onclick="reverse()"><br><br> -->
+
+      <div id="releaseApply" onmousedown="down(this)" onmouseup="up(this)"></div>
+      <!-- <br>
+      <input type="button" value="全选" class="btn btn-default" onclick="selectAll()" id="selectAll">
+      <input type="button" value="全不选" class="btn btn-default" onclick="unSelect()" id="unSelect">
+      <input type="button" value="反选" class="btn btn-default" onclick="reverse()" id="reverse"><br><br>
+      <input type="button" value="添加到样品栏" class="btn btn-default" id="add">
+      <input type="button" value="清空样品栏" class="btn btn-default" id="empty"><br> -->
+      <br>
+      <a id="btn0"></a>
+      <input id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> 
+      <a href="javascript:void(0);" id="pageSizeSet" onclick="setPageSize()">设置</a>&nbsp;
+      <a id="sjzl"></a>&nbsp;
+      <a  href="javascript:void(0);" id="btn1" onclick="firstPage()">首页</a>
+      <a  href="javascript:void(0);" id="btn2" onclick="frontPage()">上一页</a>
+      <a  href="javascript:void(0);" id="btn3" onclick="nextPage()">下一页</a>
+      <a  href="javascript:void(0);" id="btn4" onclick="lastPage()">尾页</a>&nbsp;
+      <a>转到&nbsp;</a>
+      <input id="changePage" type="text" size="1" maxlength="4"/>
+      <a>页&nbsp;</a>
+      <a  href="javascript:void(0);" id="btn5" onclick="changePage()">跳转</a>
+      <br> {% extends "footer.html" %}
+
+    </div>
+  </body>
+
+</html>

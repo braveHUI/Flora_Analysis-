@@ -1,0 +1,154 @@
+{
+  "translate4db": {
+    "产品编号": {
+      "Translate": "Project_name",
+      "Value": {
+        "谱元新肠态-体验版": "tiyan",
+        "谱元新肠态-全检版": "quanjian",
+        "谱元新肠态-医生版": "medicine",
+        "粑粑说基础版": "basic",
+        "粑粑说精英版": "advanced",
+        "婴幼儿-营养版": "infant-nu",
+        "益生菌检测": "probiotics",
+        "肿瘤科-医生版": "tumour_medicine"
+      }
+    },
+    "Project_name": {
+      "Translate": "Project_name",
+      "Value": {
+        "谱元新肠态-体验版": "tiyan",
+        "谱元新肠态-全检版": "quanjian",
+        "谱元新肠态-医生版": "medicine",
+        "粑粑说基础版": "basic",
+        "粑粑说精英版": "advanced",
+        "婴幼儿-营养版": "infant-nu",
+        "益生菌检测": "probiotics",
+        "肿瘤科-医生版": "tumour_medicine"
+      }
+    },
+    "客户渠道": {
+      "Translate": "Agent_name"
+    },
+    "渠道负责人": {
+      "Translate": "Agent_manager"
+    },
+    "渠道内部编号": {
+      "Translate": "Agent_sampleid"
+    },
+    "申请日期": {
+      "Translate": "Release_apply_date"
+    },
+    "客户联系人": {
+      "Translate": "Agent_contacts"
+    },
+    "客户联系电话": {
+      "Translate": "Agent_phone"
+    },
+    "客户联系EMAIL": {
+      "Translate": "Agent_email"
+    },
+    "客户联系地址": {
+      "Translate": "Agent_address"
+    },
+    "报告类型": {
+      "Translate": "Report_type",
+      "Value": {
+        "移动端查询": 1,
+        "邮件发送": 2,
+        "打印": 3,
+        "无需出具": 4
+      }
+    },
+    "Report_type": {
+      "Translate": "Report_type",
+      "Value": {
+        "移动端查询": 1,
+        "邮件发送": 2,
+        "打印": 3,
+        "无需出具": 4
+      }
+    },
+    "谱元配": {
+      "Translate": "PYFormula_status",
+      "Value": {
+        "无需出具": 0,
+        "待出具": 1,
+        "待装订": 2,
+        "待发送": 3,
+        "已发送": 4,
+        "已收到": 5
+      }
+    },
+    "PYFormula_status": {
+      "Translate": "PYFormula_status",
+      "Value": {
+        "无需出具": 0,
+        "待出具": 1,
+        "待装订": 2,
+        "待发送": 3,
+        "已发送": 4,
+        "已收到": 5
+      }
+    },
+    "谱元配提前出库": {
+      "Translate": "PYFormula_release_ahead"
+    },
+    "系统序号": {
+      "Translate": "PriSID"
+    },
+    "采样管编号": {
+      "Translate": "Tube_ID"
+    },
+    "出库物流单号": {
+      "Translate": "Tube_out_express_ID"
+    },
+    "采样管失效日期": {
+      "Translate": "Tube_expiry_date"
+    },
+    "样品编号": {
+      "Translate": "Sample_ID"
+    },
+    "收样物流编号": {
+      "Translate": "Sample_back_express_ID"
+    },
+    "样品状态": {
+      "Translate": "Sample_status",
+      "Value": {
+        "完整": 0,
+        "不完整": 1
+      }
+    },
+    "您的谱元销售编号": {
+      "Translate": "Sales_PYID"
+    },
+    "登记日期": {
+      "Translate": "Sales_record_date"
+    },
+    "收样日期": {
+      "Translate": "Sample_back_date"
+    },
+    "检测项目": {
+      "Translate": "Sales_items",
+      "Value": {
+        "谱元新肠态-体验版": "tiyan",
+        "谱元新肠态-全检版": "quanjian",
+        "益生菌检测": "probiotics"
+      }
+    },
+    "Sales_items": {
+      "Translate": "Sales_items",
+      "Value": {
+        "tiyan": "谱元新肠态-体验版",
+        "quanjian": "谱元新肠态-全检版",
+        "probiotics": "益生菌检测"
+
+      }
+    },
+    "用户姓名": {
+      "Translate": "Report_name"
+    },
+    "用户手机号码": {
+      "Translate": "Report_phone"
+    }
+  }
+}

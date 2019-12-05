@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>样品查询</title>
+    <script src="/static/js/order.js"></script>
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/local.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/tablePage.js"></script>
+    <script>
+      window.onload = function () {
+        $.getJSON("/sampleByDefault", loadSampleList);
+
+        $("#sampleselect_btn").click(function () {
+          var tube_id = $("#tube_id").val();
+          var agent_manager = $("#agent_manager").val();
+          var time_start = $("#time_start").val();
+          var time_end = $("#time_end").val();
+          var status = $("#status").val();
+          var tag = $("#tag").val();
+          var data = {
+            "Status": status,
+            "Tube_ID": tube_id,
+            "Agent_manager": agent_manager,
+            "Time_start": time_start,
+            "Time_end": time_end,
+              "Tag": tag,
+          }
+          $('#sampleList').empty();
+
+          $.ajax({
+            type: 'post',
+            url: '/sampleByDetail',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            statusCode: {
+              404: function () {
+                alert("网络错误")
+              },
+              200: loadSampleList,
+              500: function () {
+                alert("系统错误")
+              }
+            }
+          })
+        });
+      };
+      function updateTag(id) {
+        var tag_content = $("#tag" + id).val();
+        var data = {
+          "PriSID": id,
+          "Tag": tag_content,
+        };
+        $.ajax({
+          type: 'post',
+          url: "/updateTag",
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          statusCode: {
+            404: function () {
+              alert("网络错误！")
+            },
+            405: function () {
+              alert("请备注申请理由！")
+            },
+            200: function () {
+              alert("保存成功！");
+              $("#tag" + id).attr("disabled", "disabled")
+            },
+            300: function () {
+              alert("该样品不可修改！");
+              $("#tag" + id).attr("disabled", "disabled")
+            },
+            500: function () {
+              alert("系统错误！")
+            }
+          }
+        });
+      }
+
+      function loadSampleList(data) {
+        $('#sampleList').empty();
+        var html = "<table id='tableSort'>";
+        html += "<thead><tr>" +
+          "<th type='number' class='text-center'>序号</th>" +
+          "<th type='number' class='text-center'>系统序号</th>" +
+          "<th type='string' class='text-center'>样品编号</th>" +
+          "<th type='string' class='text-center'>采样管编号</th>" +
+          "<th type='string' class='text-center'>产品编号</th>" +
+          "<th type='string' class='text-center'>状态</th>" +
+          "<th type='string' class='text-center'>备注</th>" +
+          "<th type='string' class='text-center'>客户渠道</th>" +
+          "<th type='string' class='text-center'>渠道负责人</th>" +
+          "<th type='string' class='text-center'>问卷状态</th>" +
+          "<th type='string' class='text-center'>标签</th>" +
+            "<th type='string' class='text-center'>修改</th>" +
+          "</tr></thead><tbody> ";
+        for (var i in data) {
+          html += "<tr>" +
+            "<td>" + i + "</td>" +
+            "<td>" + data[i]["PriSID"] + "</td>" +
+            "<td>" + data[i]["Sample_ID"] + "</td>" +
+            "<td><a onclick= 'delieverPriSID(" + data[i]["PriSID"] + ")' href='sampledetail'>" + data[i]["Tube_ID"] + "</a></td>" +
+            "<td>" + data[i]["Project_name"] + "</td>" +
+            "<td>" + data[i]["Status"] + "</td>" +
+            "<td>"+ data[i]["Sample_remarks"] + "</td>" +
+            "<td>" + data[i]["Agent_name"] + "</td>" +
+            "<td>" + data[i]["Agent_manager"] + "</td>" +
+              "<td>" + data[i]["Questionnaire_status"] + "</td>"+
+              "<td><input type='text'  value='" + data[i]['Tag'] + "' id='tag" + data[i]["PriSID"] + "' style='width:100%'> </td>"+
+                  "<td><button onclick='updateTag(" + data[i]["PriSID"] + ")' type='button' class='btn btn-warning'>" +
+            "<span class='fa fa-floppy-o fa-lg'></span></button> </td></tr>" ;
+
+
+        }
+        html += "</tbody></table>";
+        $('#sampleList').append(html);
+
+        order();
+
+        len =$("#tableSort tr").length - 1;    // 求这个表的总行数，剔除第一行介绍
+        page=len % pageSize==0 ? len/pageSize : Math.floor(len/pageSize)+1;//根据记录条数，计算页数
+        // alert("page==="+page);
+        curPage=1;    // 设置当前为第一页
+        displayPage(1);//显示第一页
+        document.getElementById("btn0").innerHTML="当前 " + curPage + "/" + page + " 页    每页 ";    // 显示当前多少页
+        document.getElementById("sjzl").innerHTML="数据总量 " + len + "";        // 显示数据量
+        document.getElementById("pageSize").value = pageSize;
+      }
+
+      function delieverPriSID(prisid) {
+        sessionStorage.setItem("PriSID", prisid);
+      }
+
+      var isDown = false;
+
+      function up(check) {
+        isDown = false;
+      }
+
+      function down(check) {
+        isDown = true;
+      }
+
+      function move(check) {
+        if (isDown) {
+          check.checked = true;
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+          <a class="navbar-brand" href=#>样品查询</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          {% include "sider.html" %}
+          <ul class="nav navbar-nav navbar-right navbar-user">
+
+            {% if current_user.role_id == 7 %}
+            <li><a href="/UserAdmin">用户权限管理</a></li>
+            {% endif %}
+            <li><a href="/ChangeInfor">修改资料</a></li>
+            <li class="dropdown user-dropdown">
+              <a href="/logout" class="dropdown-toggle"><i class="fa fa-power-off"></i> Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">查询</div>
+              <div class="panel-body">
+                <div class="form-group col-lg-2">
+                  <label>按采样管编号查询</label>
+                  <input id="tube_id" class="form-control ">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>按渠道负责人查询</label>
+                  <input id="agent_manager" class="form-control ">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>更新起始日期查询</label>
+                  <input id="time_start" type="date" class="form-control ">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>更新截止日期查询</label>
+                  <input id="time_end" type="date" class="form-control ">
+                </div>
+                <div class="form-group col-lg-2">
+                  <label>状态</label>
+                  <select id="status" class="form-control ">
+                      <option value="">全部</option>
+                      <option value="1">待出库</option>
+                      <option value="2">出库</option>
+                      <option value="3">收样</option>
+                      <option value="4">待检</option>
+                      <option value="5">分析</option>
+                      <option value="6">出报告</option>
+                      <option value="7">已配送</option>
+                      <option value="8">作废</option>
+                  </select>
+                </div>
+                  <div class="form-group col-lg-2">
+                  <label>标签</label>
+                  <input id="tag" class="form-control ">
+                </div>
+
+                <div class="form-group col-lg-12">
+                  <input type="button" id="sampleselect_btn" value="查询" class="btn btn-default">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="sampleList" onmousedown="down(this)" onmouseup="up(this)"></div>
+      <br>
+      <a id="btn0"></a>
+      <input id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> 
+      <a href="javascript:void(0);" id="pageSizeSet" onclick="setPageSize()">设置</a>&nbsp;
+      <a id="sjzl"></a>&nbsp;
+      <a  href="javascript:void(0);" id="btn1" onclick="firstPage()">首页</a>
+      <a  href="javascript:void(0);" id="btn2" onclick="frontPage()">上一页</a>
+      <a  href="javascript:void(0);" id="btn3" onclick="nextPage()">下一页</a>
+      <a  href="javascript:void(0);" id="btn4" onclick="lastPage()">尾页</a>&nbsp;
+      <a>转到&nbsp;</a>
+      <input id="changePage" type="text" size="1" maxlength="4"/>
+      <a>页&nbsp;</a>
+      <a  href="javascript:void(0);" id="btn5" onclick="changePage()">跳转</a>
+      <br> {% extends "footer.html" %}
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,28 @@
+{
+  "2018.Jun26": {
+    "PYFormula2db": {
+      "菊粉维乐夫": "Inulin-VILOF",
+      "益适优·白": "Probio-fitW",
+      "PYFormula_A": "PYF-A",
+      "PYFormula_B": "PYF-B",
+      "PYFormula_C": "PYF-C",
+      "PYFormula_D": "PYF-D",
+      "PYFormula_E": "PYF-E",
+      "PYFormula_F": "PYF-F",
+      "PYFormula_G": "PYF-G",
+      "PYFormula_H": "PYF-H"
+    },
+    "PYFormula2web": {
+      "Inulin-VILOF": "菊粉维乐夫",
+      "Probio-fitW": "益适优·白",
+      "PYF-A": "PYFormula_A",
+      "PYF-B": "PYFormula_B",
+      "PYF-C": "PYFormula_C",
+      "PYF-D": "PYFormula_D",
+      "PYF-E": "PYFormula_E",
+      "PYF-F": "PYFormula_F",
+      "PYF-G": "PYFormula_G",
+      "PYF-H": "PYFormula_H"
+    }
+  }
+}

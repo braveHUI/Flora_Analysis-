@@ -1,0 +1,182 @@
+{
+  "translate4web": {
+    "PriSID": {
+      "Translate": "系统序号"
+    },
+    "Tube_ID": {
+      "Translate": "采样管编号"
+    },
+    "Tube_out_express_ID": {
+      "Translate": "出库物流单号"
+    },
+    "Tube_expiry_date": {
+      "Translate": "采样管失效日期"
+    },
+    "PYFormula_express_ID": {
+      "Translate": "谱元配物流编号"
+    },
+    "PYFormula_release_ahead": {
+      "Translate": "谱元配提前出库"
+    },
+    "PYFormula_release_record": {
+      "Translate": "谱元配出库记录"
+    },
+    "Project_name": {
+      "Translate": "产品编号",
+      "Value": {
+        "tiyan": "谱元新肠态-体验版",
+        "quanjian": "谱元新肠态-全检版",
+        "medicine": "谱元新肠态-医生版",
+        "basic": "粑粑说基础版",
+        "advanced": "粑粑说精英版",
+        "infant-nu": "婴幼儿-营养版",
+         "probiotics": "益生菌检测",
+        "tumour_medicine": "肿瘤科-医生版"
+      },
+      "suffix": {
+        "tiyan": "_tiyan.pdf",
+        "quanjian": "_quanjian.pdf",
+        "basic": "_basic.pdf",
+        "advanced": "_advanced.pdf",
+        "medicine": "_medicine.docx",
+        "infant-nu": "_infant-nu.pdf",
+        "probiotics": "_PY_probiotics_report.docx",
+        "tumour_medicine": "tumour_medicine.docx"
+      }
+    },
+    "Agent_name": {
+      "Translate": "客户渠道"
+    },
+    "Agent_manager": {
+      "Translate": "渠道负责人"
+    },
+    "Agent_sampleid": {
+      "Translate": "渠道内部编号"
+    },
+    "Agent_contacts": {
+      "Translate": "客户联系人"
+    },
+    "Agent_phone": {
+      "Translate": "客户联系电话"
+    },
+    "Agent_address": {
+      "Translate": "客户联系地址"
+    },
+    "Gender": {
+      "Translate": "性别",
+      "Value": {
+        "1": "男",
+        "0": "女"
+      }
+    },
+    "Defecation": {
+      "Translate": "排便",
+      "Value": {
+        "0": "数天一次",
+        "1": "一天一次",
+        "2": "一天数次"
+      }
+    },
+    "Diet": {
+      "Translate": "饮食",
+      "Value": {
+        "0": "素食",
+        "1": "偏素食",
+        "2": "杂食",
+        "3": "偏肉食",
+        "4": "肉食"
+      }
+    },
+    "Alcohol": {
+      "Translate": "饮酒",
+      "Value": {
+        "0": "不饮酒",
+        "1": "少量饮酒",
+        "2": "经常饮酒",
+        "3": "过量饮酒",
+        "4": "长期醉酒"
+      }
+    },
+    "Status": {
+      "Translate": "状态",
+      "Value": {
+        "1": "待出库",
+        "2": "出库",
+        "3": "收样",
+        "4": "待检",
+        "5": "出JSON",
+        "6": "出报告",
+        "7": "已配送",
+        "8": "作废"
+      }
+    },
+    "Sample_status": {
+      "Translate": "样品状态",
+      "Value": {
+        "0": "完整",
+        "1": "不完整"
+      }
+    },
+    "Questionnaire_status": {
+      "Translate": "问卷状态",
+      "Value": {
+        "0": "空",
+        "1": "完成",
+        "2": "已抓取"
+      }
+    },
+    "Report_type": {
+      "Translate": "报告类型",
+      "Value": {
+        "1": "移动端查询",
+        "2": "邮件发送",
+        "3": "打印",
+        "4": "无需出具"
+      }
+    },
+    "Report_date": {
+      "Translate": "报告生成时间"
+    },
+    "Report_print": {
+      "Translate": "报告打印状态",
+      "Value": {
+        "0": "无需打印",
+        "1": "待打印",
+        "2": "打印完成",
+        "3": "待寄出",
+        "4": "己寄出",
+        "5": "已收到"
+      }
+    },
+    "PYFormula_status": {
+      "Translate": "谱元配方案状态",
+      "Value": {
+        "0": "无需出具",
+        "1": "待出具",
+        "2": "待装订",
+        "3": "待发送",
+        "4": "已发送",
+        "5": "已收到"
+      }
+    },
+    "Sales_PYID": {
+      "Translate": "您的谱元销售编号"
+    },
+    "Sales_items": {
+      "Translate": "检测项目",
+      "Value": {
+        "tiyan": "谱元新肠态-体验版",
+        "quanjian": "谱元新肠态-全检版"
+      }
+    },
+    "Report_name": {
+      "Translate": "用户姓名"
+    },
+    "Report_phone": {
+      "Translate": "用户手机号码"
+    },
+    "Sales_record_date": {
+      "Translate": "登记日期"
+    }
+  }
+}

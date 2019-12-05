@@ -1,0 +1,20 @@
+{
+  "translate4db": {
+    "采样管编号": {
+      "Translate": "Tube_ID"
+    },
+    "样品编号": {
+      "Translate": "Sample_ID"
+    },
+    "收样物流编号": {
+      "Translate": "Sample_back_express_ID"
+    },
+    "样品状态": {
+      "Translate": "Sample_status",
+      "Value": {
+        "完整": 0,
+        "不完整": 1
+      }
+    }
+  }
+}
